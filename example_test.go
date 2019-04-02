@@ -3,13 +3,12 @@ package jsonrpc
 import (
 	"bytes"
 	"context"
+	"encoding/json"
 	"io"
 	"log"
 	"net/http"
 	"net/http/httptest"
 	"os"
-
-	"github.com/intel-go/fastjson"
 )
 
 type (
@@ -28,7 +27,7 @@ type (
 	}
 )
 
-func (h EchoHandler) ServeJSONRPC(c context.Context, params *fastjson.RawMessage) (interface{}, *Error) {
+func (h EchoHandler) ServeJSONRPC(c context.Context, params *json.RawMessage) (interface{}, *Error) {
 
 	var p EchoParams
 	if err := Unmarshal(params, &p); err != nil {
@@ -40,7 +39,7 @@ func (h EchoHandler) ServeJSONRPC(c context.Context, params *fastjson.RawMessage
 	}, nil
 }
 
-func (h PositionalHandler) ServeJSONRPC(c context.Context, params *fastjson.RawMessage) (interface{}, *Error) {
+func (h PositionalHandler) ServeJSONRPC(c context.Context, params *json.RawMessage) (interface{}, *Error) {
 
 	var p PositionalParams
 	if err := Unmarshal(params, &p); err != nil {
